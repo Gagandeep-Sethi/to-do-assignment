@@ -4,14 +4,14 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 const Greetings = () => {
   return (
-    <div className="w-full bg-red-20 px-4 py-5 ">
+    <div className="w-full bg-red-20 px-4 py-4 ">
       <div className="flex justify-between items-center">
         <p className="text-5xl">Good morning, Gagan!</p>
         <p className="flex text-xl items-center gap-3 ">
           Help & feedback <AiOutlineQuestionCircle className="h-10 w-7" />
         </p>
       </div>
-      <div className="flex gap-6 my-6">
+      <div className="flex gap-6 my-4">
         <div className="w-[364px] h-[123px] bg-white flex p-2 items-center gap-4 rounded-xl">
           <Image
             src="/intro.png"
