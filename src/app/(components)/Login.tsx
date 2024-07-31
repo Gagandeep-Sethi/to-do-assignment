@@ -1,6 +1,7 @@
 "use client ";
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useLogin } from "../(hooks)/useLogin";
 
 const Login = () => {
   const [formValue, setFormValue] = useState({
@@ -8,12 +9,19 @@ const Login = () => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading, error } = useLogin();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    await login(formValue);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
+    console.log("name", name);
+    console.log("value", value);
     setFormValue((prevFormValue) => ({
       ...prevFormValue,
       [name]: value,
@@ -25,7 +33,10 @@ const Login = () => {
         <h1 className="text-center text-5xl font-medium">
           Welcome to <span className="text-[#6f65b2] ">Workflo</span>!
         </h1>
-        <form className="flex flex-col justify-center items-center gap-y-8 my-8 ">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-center items-center gap-y-8 my-8 "
+        >
           <div>
             <input
               className="bg-[#EBEBEB] w-[528px] px-4 py-3 rounded-lg placeholder:text-neutral-400"
@@ -65,16 +76,23 @@ const Login = () => {
           </div>
           <div>
             <button
+              disabled={isLoading}
               className="bg-[#6f65b2] text-white w-[528px] text-center py-3 rounded-lg "
               type="submit"
             >
+              {isLoading ? (
+                <span className="loading loading-spinner loading-xs"></span>
+              ) : null}
               Login
             </button>
           </div>
         </form>
+        {error && (
+          <p className="text-red-600 mt-3 text-center text-sm  ">{error} !!</p>
+        )}
         <p className="text-center text-xl text-neutral-500">
           Don&apos;t have an account? Create a
-          <span className="text-sky-800"> new account.</span>
+          <span className="text-sky-800 cursor-pointer"> new account.</span>
         </p>
       </div>
     </div>
