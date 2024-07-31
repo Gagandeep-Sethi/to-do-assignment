@@ -8,11 +8,11 @@ connect();
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { username, password } = body;
-    if (!username || !password) {
+    const { email, password } = body;
+    if (!email || !password) {
       throw new Error("All fields must be filed");
     }
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error("Incorrect username or password !!");
     }
