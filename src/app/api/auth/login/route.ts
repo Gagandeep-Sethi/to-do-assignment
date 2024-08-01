@@ -2,6 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextResponse, NextRequest } from "next/server";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 connect();
 
@@ -21,10 +22,21 @@ export async function POST(req: NextRequest) {
     if (!match) {
       throw new Error("Incorrect username or password !!");
     }
-    return NextResponse.json(
-      { username: user.username, userId: user._id },
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, {
+      expiresIn: "15d",
+    });
+
+    const response = NextResponse.json(
+      { username: user?.username },
       { status: 200 }
     );
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+    });
+    return response;
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message }, { status: 400 });
