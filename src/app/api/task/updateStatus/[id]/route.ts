@@ -9,7 +9,7 @@ connect();
 export async function POST(req: NextRequest, { params }: any) {
   try {
     const body = await req.json();
-    const { title, description, status, priority, deadline } = body;
+    const { status } = body;
 
     const userId = await getTokenData(req);
 
@@ -30,12 +30,7 @@ export async function POST(req: NextRequest, { params }: any) {
     const updatedProduct = await Task.findByIdAndUpdate(
       params.id,
       {
-        title,
-        description,
         status,
-        priority,
-        deadline,
-        userId: user._id,
       },
       { new: true }
     );
