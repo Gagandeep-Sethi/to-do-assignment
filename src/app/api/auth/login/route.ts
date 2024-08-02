@@ -22,9 +22,13 @@ export async function POST(req: NextRequest) {
     if (!match) {
       throw new Error("Incorrect username or password !!");
     }
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "15d",
-    });
+    const token = jwt.sign(
+      { _id: user._id?.toString() },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "15d",
+      }
+    );
 
     const response = NextResponse.json(
       { username: user?.username },
