@@ -5,7 +5,8 @@ export interface ITask extends Document {
   status: string;
   description: string;
   priority: string;
-  deadline: Date;
+  deadline: string;
+  userId: mongoose.Types.ObjectId; // Add userId field
 }
 
 const TaskSchema: Schema = new Schema({
@@ -24,7 +25,12 @@ const TaskSchema: Schema = new Schema({
     type: String,
   },
   deadline: {
-    type: Date,
+    type: String,
+  },
+  userId: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "User",
   },
 });
 
